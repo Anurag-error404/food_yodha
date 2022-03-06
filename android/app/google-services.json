@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "312635245876",
+    "project_id": "food-yodha",
+    "storage_bucket": "food-yodha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312635245876:android:79faf80802b9a32ed09161",
+        "android_client_info": {
+          "package_name": "com.example.food_yodha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312635245876-48u07kajcn51gf64vqa3dv4729lbbbrs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd4_AtkDYDgznR8DraNHyz3vOkgx4_Th8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312635245876-48u07kajcn51gf64vqa3dv4729lbbbrs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
