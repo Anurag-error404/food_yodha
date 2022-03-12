@@ -21,7 +21,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     user = auth.currentUser!;
     user.sendEmailVerification();
 
-    timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       checkEmailVerified();
     });
     super.initState();
@@ -54,34 +54,34 @@ class _VerifyScreenState extends State<VerifyScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               width: size.width * 0.80,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.black45 , width: 2)),
               child: Column(
                 children: [
-                  CircleAvatar(backgroundImage : AssetImage('assets/img/venatus_new_logo.png'),
+                  const CircleAvatar(backgroundImage : AssetImage('assets/images/food-yodha-logo.png'),
                   radius: 30,),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                   Text(
                     'An email has been sent to ${user.email} please verify to continue.',
-                    style: TextStyle(color: Colors.black,
+                    style: const TextStyle(color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 100,),
-            Text(
+            const SizedBox(height: 100,),
+            const Text(
               'Haven\'t recieved mail yet ? Wait for a moment ',
               style: TextStyle(color: Colors.black),
             ),
-            OrDivider(),
-            FlatButton(
+            const OrDivider(),
+            TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   'Sign up with another Mail',
                   style: TextStyle(color: Colors.black,
                   fontWeight: FontWeight.w600),
@@ -99,7 +99,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     if (user.emailVerified) {
       timer.cancel();
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => OnboardingScreen()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => const OnboardingScreen()));
     }
   }
 }

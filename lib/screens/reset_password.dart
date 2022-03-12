@@ -22,7 +22,7 @@ class _ResetScreenState
       backgroundColor:
           Theme.of(context).primaryColor,
       appBar: AppBar(
-        title: Text('Reset Password'),
+        title: const Text('Reset Password'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -30,17 +30,17 @@ class _ResetScreenState
             mainAxisAlignment:
                 MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              // Center(
-              //   child: Container(
-              //     height: size.height * 0.38,
-              //     child: SvgPicture.asset(
-              //         'assets/icon/pswd.svg'),
-              //   ),
-              // ),
-              SizedBox(
+              Center(
+                child: SizedBox(
+                  height: size.height * 0.38,
+                  child: SvgPicture.asset(
+                      'assets/icons/pswd_reset.svg'),
+                ),
+              ),
+              const SizedBox(
                 height: 40,
               ),
               Padding(
@@ -56,7 +56,7 @@ class _ResetScreenState
                         color: Theme.of(context)
                             .accentColor),
                     child: TextFormField(
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white),
                         keyboardType:
                             TextInputType
@@ -66,11 +66,11 @@ class _ResetScreenState
                           prefixIcon: IconButton(
                             onPressed: () {},
                             icon:
-                                Icon(Icons.mail),
+                                const Icon(Icons.mail),
                           ),
                           hintText:
                               'Enter your registered email',
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               color:
                                   Colors.black),
                         ),
@@ -89,7 +89,7 @@ class _ResetScreenState
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -100,9 +100,9 @@ class _ResetScreenState
                   color: Colors.purple[800],
                 ),
                 child: TextButton(
-                  child: Text(
+                  child: const Text(
                     'Send Request',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white),
                   ),
                   onPressed: () {

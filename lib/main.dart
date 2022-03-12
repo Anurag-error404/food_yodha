@@ -19,13 +19,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: AppBarTheme(
-              backgroundColor:
-                  Color(0xffcd82de)),
-          primaryColor: Color(0xffCD82DE),
+          appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xffcd82de)),
+          primaryColor: const Color(0xffCD82DE),
           accentColor: Colors.white,
-          // cardColor: Colors.white
-          textTheme: TextTheme(
+          textTheme: const TextTheme(
             bodyText1: TextStyle(
               color: Colors.black,
               fontSize: 20,

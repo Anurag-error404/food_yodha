@@ -4,6 +4,7 @@ import 'package:food_yodha/screens/onboarding.dart';
 import 'package:food_yodha/screens/reset_password.dart';
 import 'package:food_yodha/screens/signup_screen.dart';
 import 'package:food_yodha/widgets/ordivider.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import 'google_login.dart';
 
@@ -46,34 +47,25 @@ class _LoginScreenState
                     const OnboardingScreen()),
           );
           // vipUser = true;
-          SnackBar(
-            content: Text(
-                "Succesfully Loggedin in as ${user.email}"),
-          );
-          SnackBar(
-            content: Text(
-                "Succesfully Loggedin in as ${user.email}"),
-          );
-          // showSimpleNotification(
-          //     Text(
-          //         "Succesfully Loggedin in as ${user.email}"),
-          //     position:
-          //         NotificationPosition.bottom,
-          //     background: Colors.red);
+         
+          
+          showSimpleNotification(
+              Text(
+                  "Succesfully Loggedin in as ${user.email}"),
+              position:
+                  NotificationPosition.top,
+              background: Colors.purpleAccent);
         } else {
           setState(() {
             // loginFail = true;
             print('sign in failed!');
-            const SnackBar(
-              content: Text(
-                  "Failed to login. Please try again later"),
-            );
-            // showSimpleNotification(
-            //     const Text(
-            //         "Failed to login. Please try again later"),
-            //     position:
-            //         NotificationPosition.bottom,
-            //     background: Colors.red);
+            
+            showSimpleNotification(
+                const Text(
+                    "Failed to login. Please try again later"),
+                position:
+                    NotificationPosition.top,
+                background: Colors.purpleAccent);
           });
         }
       } catch (e) {
@@ -81,41 +73,31 @@ class _LoginScreenState
         if (errorCode ==
             '[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.') {
           print('this email isnt registered !');
-          const SnackBar(
-            content: Text(
-                "Email isn't registered. Please sign up First"),
-            backgroundColor: Colors.black,
-          );
-          // showSimpleNotification(
-          //     Text(
-          //         "Email isn't registered. Please sign up First"),
-          //     position:
-          //         NotificationPosition.bottom,
-          //     background: Colors.red);
+          
+          showSimpleNotification(
+              Text(
+                  "Email isn't registered. Please sign up First"),
+              position:
+                  NotificationPosition.top,
+              background: Colors.purpleAccent);
         } else if (errorCode ==
             '[firebase_auth/wrong-password] The password is invalid or the user does not have a password.') {
           print('invalid password');
-          const SnackBar(
-            content: Text(
-                "Password Entered is incorrect"),
-          );
-          // showSimpleNotification(
-          //     Text(
-          //         "Password Entered is incorrect"),
-          //     position:
-          //         NotificationPosition.bottom,
-          //     background: Colors.red);
+         
+          showSimpleNotification(
+              Text(
+                  "Password Entered is incorrect"),
+              position:
+                  NotificationPosition.top,
+              background: Colors.purpleAccent);
         } else {
-          const SnackBar(
-            content: Text(
-                "Some Unexpected Error occured please try again later."),
-          );
-          // showSimpleNotification(
-          //     Text(
-          //         "Some Unexpected Error occured please try again later."),
-          //     position:
-          //         NotificationPosition.bottom,
-          //     background: Colors.red);
+          
+          showSimpleNotification(
+              Text(
+                  "Some Unexpected Error occured please try again later."),
+              position:
+                  NotificationPosition.top,
+              background: Colors.purpleAccent);
         }
         print(e.toString());
       }
