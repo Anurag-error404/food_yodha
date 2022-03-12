@@ -1,19 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:food_yodha/screens/homescreen.dart';
+import 'package:food_yodha/screens/terms_conditions.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import '../all_screen.dart';
 
-class UserInfo extends StatefulWidget {
-  const UserInfo({Key? key}) : super(key: key);
+class UserInfoForm extends StatefulWidget {
+  const UserInfoForm({Key? key})
+      : super(key: key);
 
   @override
-  State<UserInfo> createState() =>
-      _UserInfoState();
+  State<UserInfoForm> createState() =>
+      _UserInfoFormState();
 }
 
-class _UserInfoState extends State<UserInfo> {
+class _UserInfoFormState
+    extends State<UserInfoForm> {
   final _formKey = GlobalKey<FormState>();
   String? userName;
   DateTime? dob;
@@ -22,7 +26,70 @@ class _UserInfoState extends State<UserInfo> {
   String? pinCode;
   String? city;
   String? state;
-  String? country;
+  bool isTnCAccepted = false;
+
+  var userUid = "";
+  var userMail = "";
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final firestore = FirebaseFirestore.instance;
+  void inputData() {
+    setState(() {
+      final User? user = auth.currentUser;
+      userUid = user!.uid.toString();
+      userMail = user.email!;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    inputData();
+  }
+
+  _submit() {
+    DocumentReference documentReference =
+        firestore
+            .collection("users_app")
+            .doc(userUid);
+
+    bool isValid =
+        _formKey.currentState!.validate();
+    if (isTnCAccepted) {
+      if (isValid) {
+        documentReference
+            .get()
+            .then((value) async {
+          await firestore
+              .collection("users_app")
+              .doc(userUid)
+              .update({
+            "name": userName,
+            "phoneNumber": contact,
+            "credits": 100,
+            "dob": dob,
+            "address": addressLine,
+            "city": city,
+            "pincode": pinCode,
+            "email": userMail
+          });
+        });
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (ctx) =>
+                    const AllScreen()));
+      } else {
+        const SnackBar(
+          content: Text("Form Submission error"),
+        );
+      }
+    } else {
+      showSimpleNotification(
+        const Text(
+            "Terms and conditions need to be accepted to use the app"),
+      );
+    }
+  }
 
   _showDatePicker() {
     showDatePicker(
@@ -35,6 +102,19 @@ class _UserInfoState extends State<UserInfo> {
         dob = value!;
       });
     });
+  }
+
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates =
+        <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.white;
+    }
+    return Colors.purple;
   }
 
   @override
@@ -161,12 +241,12 @@ class _UserInfoState extends State<UserInfo> {
                       BorderRadius.circular(15),
                 ),
                 child: ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     FontAwesomeIcons.calendar,
                     color: Colors.purple,
                   ),
                   onTap: _showDatePicker,
-                  title: Text(
+                  title: const Text(
                     "Date of birth",
                     style:
                         TextStyle(fontSize: 18),
@@ -293,9 +373,41 @@ class _UserInfoState extends State<UserInfo> {
                 ),
               ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
 
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              TermsAndConditions()));
+                },
+                child: Text(
+                    "Click here to read the terms and conditions"),
+              ),
+              Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.center,
+                children: [
+                  Checkbox(
+                    checkColor: Colors.white,
+                    fillColor:
+                        MaterialStateProperty
+                            .resolveWith(
+                                getColor),
+                    value: isTnCAccepted,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isTnCAccepted = value!;
+                      });
+                    },
+                  ),
+                  const Text(
+                      "Terms and Conditions"),
+                ],
+              ),
               Container(
                 decoration: BoxDecoration(
                     color: Colors.purple,
@@ -303,10 +415,8 @@ class _UserInfoState extends State<UserInfo> {
                         BorderRadius.circular(
                             15)),
                 child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx)=>AllScreen()));
-                  },
-                  child: Text(
+                  onPressed: _submit,
+                  child: const Text(
                     "Submit",
                     style:
                         TextStyle(fontSize: 20),

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:food_yodha/screens/launch_screen.dart';
 import 'package:food_yodha/screens/login_screen.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,27 +15,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-            backgroundColor:
-                Color(0xffcd82de)),
-        primaryColor: Color(0xffCD82DE),
-        accentColor: Colors.white,
-        // cardColor: Colors.white
-        textTheme: TextTheme(
-          bodyText1: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-          ),
-          bodyText2: TextStyle(
-            color: Colors.black,
-            fontSize: 15,
+    return OverlaySupport.global(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              backgroundColor:
+                  Color(0xffcd82de)),
+          primaryColor: Color(0xffCD82DE),
+          accentColor: Colors.white,
+          // cardColor: Colors.white
+          textTheme: TextTheme(
+            bodyText1: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+            ),
+            bodyText2: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+            ),
           ),
         ),
+        home: const LoginScreen(),
       ),
-      home: const LoginScreen(),
     );
   }
 }

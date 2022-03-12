@@ -11,6 +11,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -34,21 +36,28 @@ class _HomeScreenState extends State<HomeScreen> {
           // silver items
 
           SliverToBoxAdapter(
-            child: Container(
-              color: Colors.blue,
-              height: 200,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Text('hi'),
+                color: Colors.blue,
+                height: 200,
+                width: size.width * 0.8,
+              ),
             ),
           ),
           SliverToBoxAdapter(
             child: Container(
               color: Colors.blue,
               height: 200,
+              width: size.width * 0.8,
             ),
           ),
           SliverToBoxAdapter(
             child: Container(
               color: Colors.blue,
               height: 200,
+              width: size.width * 0.8,
             ),
           ),
         ],

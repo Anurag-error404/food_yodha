@@ -55,33 +55,34 @@ class _AllScreenState extends State<AllScreen> {
         currentIndex: _selectedPageIndex,
         items: const [
           BottomNavigationBarItem(
+              backgroundColor: Color(0xffcd82de),
               icon: Icon(
                 FontAwesomeIcons.home,
                 color: Colors.purple,
                 size: 30,
               ),
-              label: ''),
+              label: 'home'),
           BottomNavigationBarItem(
               icon: Icon(
                 FontAwesomeIcons.mapMarked,
                 color: Colors.purple,
                 size: 30,
               ),
-              label: ''),
+              label: 'locate us'),
           BottomNavigationBarItem(
               icon: Icon(
                 FontAwesomeIcons.donate,
                 color: Colors.purple,
                 size: 30,
               ),
-              label: ''),
+              label: 'donate'),
           BottomNavigationBarItem(
               icon: Icon(
                 FontAwesomeIcons.userAlt,
                 color: Colors.purple,
                 size: 30,
               ),
-              label: ''),
+              label: 'profile'),
         ],
       ),
     );
