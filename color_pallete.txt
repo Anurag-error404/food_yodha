@@ -1,0 +1,4 @@
+#E5B2CA top
+#CD82DE bottom
+#78258B button1
+#
