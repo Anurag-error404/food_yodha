@@ -47,19 +47,17 @@ class _LoginScreenState
                     const OnboardingScreen()),
           );
           // vipUser = true;
-         
-          
+
           showSimpleNotification(
               Text(
                   "Succesfully Loggedin in as ${user.email}"),
-              position:
-                  NotificationPosition.top,
+              position: NotificationPosition.top,
               background: Colors.purpleAccent);
         } else {
           setState(() {
             // loginFail = true;
             print('sign in failed!');
-            
+
             showSimpleNotification(
                 const Text(
                     "Failed to login. Please try again later"),
@@ -73,30 +71,26 @@ class _LoginScreenState
         if (errorCode ==
             '[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.') {
           print('this email isnt registered !');
-          
+
           showSimpleNotification(
               Text(
                   "Email isn't registered. Please sign up First"),
-              position:
-                  NotificationPosition.top,
+              position: NotificationPosition.top,
               background: Colors.purpleAccent);
         } else if (errorCode ==
             '[firebase_auth/wrong-password] The password is invalid or the user does not have a password.') {
           print('invalid password');
-         
+
           showSimpleNotification(
               Text(
                   "Password Entered is incorrect"),
-              position:
-                  NotificationPosition.top,
+              position: NotificationPosition.top,
               background: Colors.purpleAccent);
         } else {
-          
           showSimpleNotification(
               Text(
                   "Some Unexpected Error occured please try again later."),
-              position:
-                  NotificationPosition.top,
+              position: NotificationPosition.top,
               background: Colors.purpleAccent);
         }
         print(e.toString());
@@ -175,6 +169,7 @@ class _LoginScreenState
                       }
                     },
                     decoration: InputDecoration(
+                      border: InputBorder.none,
                       prefixIcon:
                           const IconButton(
                         icon: Icon(Icons.mail),
@@ -226,6 +221,7 @@ class _LoginScreenState
                       }
                     },
                     decoration: InputDecoration(
+                        border: InputBorder.none,
                         prefixIcon:
                             const IconButton(
                           icon: Icon(

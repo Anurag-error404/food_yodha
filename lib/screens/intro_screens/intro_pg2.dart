@@ -45,11 +45,11 @@ class Intro2 extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: size.height * 0.35,
+              bottom: size.height * 0.4,
               left: size.width * 0.1,
               child: Image.asset(
                 'assets/icons/beg.png',
-                height: size.height * 0.5,
+                height: size.height * 0.35,
               ),
             ),
             Positioned(

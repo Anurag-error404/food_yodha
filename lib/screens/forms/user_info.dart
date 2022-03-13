@@ -69,6 +69,7 @@ class _UserInfoFormState
             "dob": dob,
             "address": addressLine,
             "city": city,
+            "state": state,
             "pincode": pinCode,
             "email": userMail
           });
@@ -79,8 +80,8 @@ class _UserInfoFormState
                 builder: (ctx) =>
                     const AllScreen()));
       } else {
-        const SnackBar(
-          content: Text("Form Submission error"),
+        showSimpleNotification(
+          const Text("Form Submission error"),
         );
       }
     } else {
@@ -120,310 +121,370 @@ class _UserInfoFormState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 20),
-        width: size.width,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFE5B2CA),
-              Color(0xFFCD82DE)
-            ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 20),
+          width: size.width,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFFE5B2CA),
+                Color(0xFFCD82DE)
+              ],
+            ),
           ),
-        ),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "User Profile",
-                style: TextStyle(fontSize: 25),
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              // name
-              TextFormField(
-                key: const ValueKey('userName'),
-                keyboardType: TextInputType.name,
-                onSaved: (newValue) {
-                  userName = newValue;
-                },
-                cursorColor: Colors.purple,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "This field can not be empty";
-                  } else {
-                    return null;
-                  }
-                },
-                decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const FaIcon(
-                      FontAwesomeIcons.users,
-                      color: Colors.purple,
-                    ),
-                  ),
-                  labelText: 'Name',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                  hintText: 'Enter your name',
-                  hintStyle: const TextStyle(
-                      color: Colors.black87),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // contact
-              TextFormField(
-                key: const ValueKey('contact'),
-                keyboardType:
-                    TextInputType.number,
-                onSaved: (newValue) {
-                  contact = newValue;
-                },
-                cursorColor: Colors.purple,
-                validator: (value) {
-                  if (value!.length != 10) {
-                    return "Invalid Contact Number";
-                  } else {
-                    return null;
-                  }
-                },
-                decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const FaIcon(
-                      FontAwesomeIcons.phone,
-                      color: Colors.purple,
-                    ),
-                  ),
-                  labelText: 'Contact Number',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                  hintText:
-                      'Enter your contact details',
-                  hintStyle: const TextStyle(
-                      color: Colors.black87),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // dob
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.black
-                          .withOpacity(0.45)),
-                  borderRadius:
-                      BorderRadius.circular(15),
-                ),
-                child: ListTile(
-                  leading: const Icon(
-                    FontAwesomeIcons.calendar,
-                    color: Colors.purple,
-                  ),
-                  onTap: _showDatePicker,
-                  title: const Text(
-                    "Date of birth",
-                    style:
-                        TextStyle(fontSize: 18),
-                  ),
-                  subtitle: Text(dob == null
-                      ? ""
-                      : "${dob?.day} - ${dob?.month} - ${dob?.year}"),
-                ),
-              ),
-
-              const SizedBox(
-                height: 10,
-              ),
-              // address
-              TextFormField(
-                key:
-                    const ValueKey('addressLine'),
-                keyboardType:
-                    TextInputType.streetAddress,
-                onSaved: (newValue) {
-                  addressLine = newValue;
-                },
-                cursorColor: Colors.purple,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "This field can not be empty";
-                  } else {
-                    return null;
-                  }
-                },
-                decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const FaIcon(
-                      FontAwesomeIcons.map,
-                      color: Colors.purple,
-                    ),
-                  ),
-                  labelText: 'Address',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // city
-              TextFormField(
-                key: const ValueKey('city'),
-                keyboardType: TextInputType.name,
-                onSaved: (newValue) {
-                  city = newValue;
-                },
-                cursorColor: Colors.purple,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "This field can not be empty";
-                  } else {
-                    return null;
-                  }
-                },
-                decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const FaIcon(
-                      FontAwesomeIcons.city,
-                      color: Colors.purple,
-                    ),
-                  ),
-                  labelText: 'City',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // pincode
-              TextFormField(
-                key: const ValueKey('pinCode'),
-                keyboardType:
-                    TextInputType.number,
-                onSaved: (newValue) {
-                  pinCode = newValue;
-                },
-                cursorColor: Colors.purple,
-                validator: (value) {
-                  if (value!.length != 6) {
-                    return "Invalid Pin";
-                  } else {
-                    return null;
-                  }
-                },
-                decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const FaIcon(
-                      FontAwesomeIcons
-                          .locationArrow,
-                      color: Colors.purple,
-                    ),
-                  ),
-                  labelText: 'Pincode',
-                  labelStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) =>
-                              TermsAndConditions()));
-                },
-                child: Text(
-                    "Click here to read the terms and conditions"),
-              ),
-              Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.center,
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  Checkbox(
-                    checkColor: Colors.white,
-                    fillColor:
-                        MaterialStateProperty
-                            .resolveWith(
-                                getColor),
-                    value: isTnCAccepted,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isTnCAccepted = value!;
-                      });
-                    },
+                  const SizedBox(
+                    height: 20,
                   ),
                   const Text(
-                      "Terms and Conditions"),
+                    "User Profile",
+                    style:
+                        TextStyle(fontSize: 25),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // name
+                  TextFormField(
+                    key: const ValueKey(
+                        'userName'),
+                    keyboardType:
+                        TextInputType.name,
+                    onSaved: (newValue) {
+                      userName = newValue;
+                    },
+                    cursorColor: Colors.purple,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "This field can not be empty";
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons.users,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      labelText: 'Name',
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                      hintText: 'Enter your name',
+                      hintStyle: const TextStyle(
+                          color: Colors.black87),
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                                15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  // contact
+                  TextFormField(
+                    key:
+                        const ValueKey('contact'),
+                    keyboardType:
+                        TextInputType.number,
+                    onSaved: (newValue) {
+                      contact = newValue;
+                    },
+                    cursorColor: Colors.purple,
+                    validator: (value) {
+                      if (value!.length != 10) {
+                        return "Invalid Contact Number";
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons.phone,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      labelText: 'Contact Number',
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                      hintText:
+                          'Enter your contact details',
+                      hintStyle: const TextStyle(
+                          color: Colors.black87),
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                                15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  // dob
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black
+                              .withOpacity(0.45)),
+                      borderRadius:
+                          BorderRadius.circular(
+                              15),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        FontAwesomeIcons.calendar,
+                        color: Colors.purple,
+                      ),
+                      onTap: _showDatePicker,
+                      title: const Text(
+                        "Date of birth",
+                        style: TextStyle(
+                            fontSize: 18),
+                      ),
+                      subtitle: Text(dob == null
+                          ? ""
+                          : "${dob?.day} - ${dob?.month} - ${dob?.year}"),
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  // address
+                  TextFormField(
+                    key: const ValueKey(
+                        'addressLine'),
+                    keyboardType: TextInputType
+                        .streetAddress,
+                    onSaved: (newValue) {
+                      addressLine = newValue;
+                    },
+                    cursorColor: Colors.purple,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "This field can not be empty";
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons.map,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      labelText: 'Address',
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                                15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  // city
+                  TextFormField(
+                    key: const ValueKey('city'),
+                    keyboardType:
+                        TextInputType.name,
+                    onSaved: (newValue) {
+                      city = newValue;
+                    },
+                    cursorColor: Colors.purple,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "This field can not be empty";
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons.city,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      labelText: 'City',
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                                15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    key: const ValueKey('state'),
+                    keyboardType:
+                        TextInputType.name,
+                    onSaved: (newValue) {
+                      state = newValue;
+                    },
+                    cursorColor: Colors.purple,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "This field can not be empty";
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons
+                              .landmark,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      labelText: 'State',
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                                15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // pincode
+                  TextFormField(
+                    key:
+                        const ValueKey('pinCode'),
+                    keyboardType:
+                        TextInputType.number,
+                    onSaved: (newValue) {
+                      pinCode = newValue;
+                    },
+                    cursorColor: Colors.purple,
+                    validator: (value) {
+                      if (value!.length != 6) {
+                        return "Invalid Pin";
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons
+                              .locationArrow,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      labelText: 'Pincode',
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                                15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  TermsAndConditions()));
+                    },
+                    child: Text(
+                        "Click here to read the terms and conditions"),
+                  ),
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                        checkColor: Colors.white,
+                        fillColor:
+                            MaterialStateProperty
+                                .resolveWith(
+                                    getColor),
+                        value: isTnCAccepted,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isTnCAccepted =
+                                value!;
+                          });
+                        },
+                      ),
+                      const Text(
+                          "Terms and Conditions"),
+                    ],
+                  ),
+                  Container(
+                    width: size.width * 0.9,
+                    decoration: BoxDecoration(
+                        color: Colors.purple,
+                        borderRadius:
+                            BorderRadius.circular(
+                                15)),
+                    child: MaterialButton(
+                      onPressed: _submit,
+                      child: const Text(
+                        "Submit",
+                        style: TextStyle(
+                            fontSize: 20),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.purple,
-                    borderRadius:
-                        BorderRadius.circular(
-                            15)),
-                child: MaterialButton(
-                  onPressed: _submit,
-                  child: const Text(
-                    "Submit",
-                    style:
-                        TextStyle(fontSize: 20),
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
         ),
       ),

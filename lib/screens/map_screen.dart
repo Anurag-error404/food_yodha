@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:food_yodha/screens/directionRepository.dart';
+import 'package:food_yodha/screens/directions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -19,11 +21,26 @@ class _MapScreenState extends State<MapScreen> {
     zoom: 15,
   );
 
-  Set<Marker> markers = {};
+  Set<Marker> _markers = {
+    Marker(
+        icon:
+            BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueViolet),
+        markerId: MarkerId('userLocation'),
+        position: LatLng(28.6100, 77.0380))
+  };
+
+  bool userLocation = false;
+  bool directionInfo = false;
 
   late GoogleMapController _googleMapController;
-  // late Marker _origin;
-  // late Marker _destination;
+  late Marker _origin;
+  Marker _destination = Marker(
+      icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueViolet),
+      markerId: MarkerId('destination'),
+      position: LatLng(28.6100, 77.0380));
+  late Directions _info;
 
   @override
   void dispose() {
@@ -35,6 +52,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
             body: GoogleMap(
+              indoorViewEnabled: true,
               initialCameraPosition:
                   _initialCameraPosition,
               zoomControlsEnabled: false,
@@ -42,15 +60,32 @@ class _MapScreenState extends State<MapScreen> {
               onMapCreated: (controller) =>
                   _googleMapController =
                       controller,
-              // markers: {
-              //   if (_origin != null) _origin,
-              //   if (_destination != null)
-              //     _destination,
-              // },
+              markers: {
+                if (userLocation) _origin,
+                _destination,
+              },
+              polylines: directionInfo
+                  ? {
+                      Polyline(
+                        polylineId: PolylineId(
+                            'directions'),
+                        color: Colors.yellow,
+                        width: 5,
+                        points: _info
+                            .polylinePoints
+                            .map((e) => LatLng(
+                                e.latitude,
+                                e.longitude))
+                            .toList(),
+                      ),
+                    }
+                  : {},
             ),
             floatingActionButton: Column(
               mainAxisAlignment:
                   MainAxisAlignment.end,
+              crossAxisAlignment:
+                  CrossAxisAlignment.center,
               children: [
                 FloatingActionButton(
                   onPressed: () async {
@@ -68,17 +103,41 @@ class _MapScreenState extends State<MapScreen> {
                                         .latitude,
                                     position
                                         .longitude),
-                                zoom: 18)));
-                    markers.clear();
-                    markers.add(Marker(
-                        icon: BitmapDescriptor
-                            .defaultMarker,
-                        markerId: MarkerId(
-                            'userLocation'),
-                        position: LatLng(
-                            position.latitude,
-                            position.longitude)));
+                                zoom: 15)));
+                    // _markers.clear();
+                    // _markers.add(Marker(
+                    //     icon: BitmapDescriptor
+                    //         .defaultMarker,
+                    //     markerId: MarkerId(
+                    //         'userLocation'),
+                    //     position: LatLng(
+                    //         position.latitude,
+                    //         position.longitude)));
 
+                    final directions =
+                        await DirectionRepository()
+                            .getDirections(
+                                origin: _origin
+                                    .position,
+                                destination:
+                                    _destination
+                                        .position);
+
+                    setState(() {
+                      userLocation = true;
+                      _origin = Marker(
+                          icon: BitmapDescriptor
+                              .defaultMarker,
+                          markerId: MarkerId(
+                              'userLocation'),
+                          position: LatLng(
+                              position.latitude,
+                              position
+                                  .longitude));
+
+                      _info = directions!;
+                      directionInfo = true;
+                    });
                     setState(() {});
                   },
                   backgroundColor:
@@ -86,17 +145,21 @@ class _MapScreenState extends State<MapScreen> {
                   foregroundColor: Colors.black,
                   child: Icon(Icons.gps_fixed),
                 ),
-                FloatingActionButton(
-                  onPressed: () => _googleMapController
-                      .animateCamera(CameraUpdate
-                          .newCameraPosition(
-                              (_initialCameraPosition))),
-                  backgroundColor:
-                      Colors.purple[100],
-                  foregroundColor: Colors.black,
-                  child: Icon(
-                      Icons.center_focus_strong),
-                ),
+
+                SizedBox(
+                  height: 50,
+                )
+                // FloatingActionButton(
+                //   onPressed: () => _googleMapController
+                //       .animateCamera(CameraUpdate
+                //           .newCameraPosition(
+                //               (_initialCameraPosition))),
+                //   backgroundColor:
+                //       Colors.purple[100],
+                //   foregroundColor: Colors.black,
+                //   child: Icon(
+                //       Icons.center_focus_strong),
+                // ),
               ],
             )),
       );
